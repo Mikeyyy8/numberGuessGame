@@ -44,12 +44,12 @@ async function guess(max = 2) {
   }
 }
 
-// Run immediately on execution
+// IIFE -> Run immediately on execution
 (async () => {
   try {
     console.log('Enter "exit" in the prompt or use Ctrl + C, to quit\n')
 
-    // prompt for input
+    // prompt user for input
     const userName = await prompt('please enter your name: ')
     const user = /\S/.test(userName) ? userName : "Player"
 
@@ -62,3 +62,16 @@ async function guess(max = 2) {
       console.log(`\n${player.name}, you are playing level ${player.level}\n`)
       await guess(player.level + 1)
     }
+
+    rl.close()
+  } catch (error) {
+    console.error("Unable to prompt", error);
+  }
+})()
+
+// 
+rl.on('close', () => {
+  console.log(`\nGame Over\n${player.name}, you reached level ${player.level} and got ${Math.round(player.score)} points\n`)
+  process.exit(0)
+}
+);
